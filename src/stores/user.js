@@ -40,6 +40,8 @@ export const useUserStore = defineStore("user", {
                 phone: newStudent.phone,
                 user_id: id_user,
                 semester_id: id_semester
+            }, {
+                withCredentials: true
             })
 
             console.log(response.data.data)
@@ -52,7 +54,7 @@ export const useUserStore = defineStore("user", {
                 email: credentials.email,
                 password: credentials.user_password
             })
-            
+
         }
     }
 })
