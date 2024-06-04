@@ -37,10 +37,13 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import { useUserStore } from "@/stores/user";
+import router from "@/router";
+import { useStudentStore } from "@/stores/student";
 
 const user = useUserStore();
+const student = useStudentStore();
 
 const formLogin = ref({
     email: "",
@@ -48,21 +51,22 @@ const formLogin = ref({
 })
 
 const login = async () =>{
-     await user.loginUser(formLogin.value)   
+     await user.loginUser(formLogin.value)
+     const response = await user.fetchUserCSRF();
+     console.log(response.id)
+
+     const infStudent = await student.fetchStudent(response.id);
+
+     sessionStorage.setItem("userInf", JSON.stringify(response));
+     sessionStorage.setItem("studentInf", JSON.stringify(infStudent));   
+
+     if (response !== undefined){
+        console.log("inico de sesion")
+        router.push("procrastination");
+     }
     } 
 
-/*
-import router from "@/router/index.js"
-import { useAuthStore } from "@/stores/auth.js"
-import {useSessionStore} from "@/stores/session.js"
-
-const log = useAuthStore();
-const session = useSessionStore();
-
-
-
-onMounted(() =>{
-    sessionStorage.clear()
-})
-*/
+    onMounted( ()=>{
+      user.deleteCookies();
+    })
 </script>

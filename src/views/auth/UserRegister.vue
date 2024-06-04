@@ -208,8 +208,9 @@ const submit = async () => {
   const response = await user.fetchUser()
 
   await user.registerStudent (formRegister.value, formRegister.value.id_semester,   response.id);
- router.push({name: 'Home'});
-console.log(formRegister.value)
+  user.deleteCookies();
+ router.push({name: 'login'});
+  console.log(formRegister.value)
   
 }
 

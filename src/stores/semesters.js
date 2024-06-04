@@ -8,7 +8,7 @@ export const useSemestersStore = defineStore("semesters", {
 
     actions: {
         async fetchSemesters(idCareer) {
-            const response = await axios.get("/semesters?fileter[career_id]="+idCareer);
+            const response = await axios.get("/semesters?filter[career_id]="+idCareer);
             this.semesters = response.data.data;
         },
 

@@ -1,5 +1,6 @@
 import axios from "@/axios";
 import { defineStore } from "pinia";
+import Cookies from "js-cookie";
 
 export const useUserStore = defineStore("user", {
     state: () => ({
@@ -10,6 +11,13 @@ export const useUserStore = defineStore("user", {
 
         
         async fetchUser(){
+            const response = await axios.get("user");
+            this.user = response.data.data;
+            return response.data;
+        },
+
+        async fetchUserCSRF(){
+            await axios.get("/sanctum/csrf-cookie");
             const response = await axios.get("user");
             this.user = response.data.data;
             return response.data;
@@ -55,6 +63,11 @@ export const useUserStore = defineStore("user", {
                 password: credentials.user_password
             })
 
+        },
+
+        deleteCookies(){
+            Cookies.remove("laravel_session")
+            Cookies.remove("XSRF-TOKEN")
         }
     }
 })
