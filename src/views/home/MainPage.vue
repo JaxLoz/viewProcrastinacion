@@ -1,14 +1,19 @@
 <template>
+  <NavBar />
   <div>
     <createTask v-if="OpenModalCreateTask" :updateTask="updateTaskInfo" />
   </div>
   <div>
-    <resumeTask :tasks="listTasks" @updateTask="updateTask" @deleteTask="deleteTask" />
+    <div class="">
+      <resumeTask :tasks="listTasks" @updateTask="updateTask" @deleteTask="deleteTask" />
+
+    </div>
   </div>
 </template>
 <script setup>
 import createTask from '../../components/CreateTasks.vue'
 import resumeTask from '../../components/ResumeTask.vue'
+import NavBar from '@/components/NavBar.vue';
 
 import { ref, onMounted, computed } from 'vue'
 import { useTaskStore } from '@/stores/task'
