@@ -216,12 +216,12 @@ const submit = async () => {
 
 const getCarrers = async () => {
   await careers.fetchCarrers(formRegister.value.id_faculty)
-  console.log(formRegister.value.id_faculty)
+  console.log("Id_facultad "+formRegister.value.id_faculty)
 }
 
 const getSemesters = async () => {
   await semesters.fetchSemesters(formRegister.value.id_career)
-  console.log(formRegister.value.id_career)
+  console.log("id_carrera "+formRegister.value.id_career)
 }
 
 onMounted(async () => {

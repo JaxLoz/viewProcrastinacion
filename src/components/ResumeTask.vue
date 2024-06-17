@@ -1,8 +1,8 @@
 <template>
 
-<div class="min-h-screen p-4">
+<div class="min-h-screen p-4 w-full">
     <!--<h1 class="text-4xl font-bold text-center mb-8">Lista de Tareas</h1>-->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div v-for="task in tasks" :key="task.id" class="bg-white p-4 rounded-lg shadow-lg flex flex-col space-y-4">
         <div class="flex-1">
           <div class="text-sm text-gray-500 flex justify-between items-center">
@@ -41,7 +41,7 @@
           <div class="mt-2 flex justify-between items-center">
             <span class="text-gray-600">
               Prioridad: 
-              <span :class="{'text-red-500': task.priority.name === 'alta', 'text-yellow-500': task.priority.name === 'media', 'text-green-500': task.priority.name === 'baja'}">
+              <span :class="{'text-red-500': task.priority.name === 'Alta', 'text-yellow-500': task.priority.name === 'Moderada', 'text-green-500': task.priority.name === 'Baja'}">
                 {{ task.priority.name }}
               </span>
             </span>

@@ -4,6 +4,7 @@ import axios from "@/axios";
 export const useTaskStore = defineStore("task", {
     state: () => ({
         tasks: [],
+        auxTasks: [],
         task: null,
         isModalCreateTask: false,
         isModeUpdateTask: false
@@ -30,6 +31,40 @@ export const useTaskStore = defineStore("task", {
             const response = await axios.get(`/tasks?filter[student_id]=${idStudent}&include=status,priority`);
             this.tasks = response.data.data;
             return response.data.data;
+        },
+
+        filterTask(filters){
+
+            // valores por defecto para cuando los filtros de fecha esten vacios
+            const date = new Date();
+            const currentYear = date.getFullYear();
+            const currentMonth = date.getMonth();
+            const currentDay = date.getDate();
+            const currentDate = String(currentYear) + "-" + String(currentMonth).padStart(2, '0') + "-" + String(currentDay).padStart(2, '0');
+
+            filters.dateFilterSince = filters.dateFilterSince !== "" ? filters.dateFilterSince : "2000-01-01";
+            filters.dateFilterUntil = filters.dateFilterUntil !== "" ? filters.dateFilterUntil : currentDate;
+
+            // valores por defecto para cuando los filtros de prioridad y estado esten vacios
+
+            filters.status = filters.status !== 0 ? filters.status : 3;
+            filters.priority = filters.priority !== 0 ? filters.priority : 1;
+
+            console.log(filters)
+
+            const filteredTasks = this.tasks.filter(task => {
+                
+                return task.status_id == filters.status && task.priority_id == filters.priority && (new Date(task.start_date) >=  new Date(filters.dateFilterSince) && new Date(task.start_date) <= new Date(filters.dateFilterUntil));
+            })
+            this.auxTasks = this.tasks;
+            this.tasks = filteredTasks;
+            
+            
+        },
+
+        cleanFilterTask(){
+            this.tasks = this.auxTasks;
+            this.auxTasks = [];
         },
 
         async updateTask(idTask, infoTask){
